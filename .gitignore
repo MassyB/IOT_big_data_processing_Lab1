@@ -2,3 +2,4 @@ output
 output/*
 *.jar
 *.class
+*_output
