@@ -52,7 +52,7 @@ public class Recomender {
             throws IOException, InterruptedException {
 
             // get an array of items, there is no redondante value.
-            // the values are ordered decreasingly accrodingly to the number of times
+            // the values are ordered decreasingly accroding to the number of times
             // they appear in the 'values' argument
             String[] items = getSortedUniqueItems(values);
             // construct the output of the reduce
