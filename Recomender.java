@@ -44,11 +44,24 @@ public class Recomender {
   public static class RecomenderReducer
     extends Reducer<Text, Text, Text, Text> {
 
-        private HashMap<String,Integer> itemsCount;
+       // a hashmap used to sort the values, see 'getSortedUniqueItems' method
+       private HashMap<String,Integer> itemsCount;
 
         @Override
         public void reduce(Text key, Iterable<Text> values,Context context)
             throws IOException, InterruptedException {
+
+            // get an array of items, there is no redondante value.
+            // the values are ordered decreasingly accrodingly to the number of times
+            // they appear in the 'values' argument
+            String[] items = getSortedUniqueItems(values);
+            // construct the output of the reduce
+            String suggestions = join(items);
+            // write the reduce output value
+            context.write(key, new Text(suggestions));
+        }
+
+        private String[] getSortedUniqueItems(Iterable<Text> values){
 
             // construct the count for each item
             itemsCount = new HashMap<String,Integer>();
@@ -59,7 +72,7 @@ public class Recomender {
               else
                 itemsCount.put(item.toString(),new Integer(1));
             }
-            // get an array of items
+            // get an array of items, without duplicates
             Set<String> itemSet = itemsCount.keySet();
             String[] items = new String[itemSet.size()];
             int i=0;
@@ -69,10 +82,7 @@ public class Recomender {
             }
             // sort the items
             sortDecreasingly(items);
-            // construct the output of the reduce
-            String suggestions = join(items);
-            // write the reduce output value
-            context.write(key, new Text(suggestions));
+            return items;
         }
 
         private void sortDecreasingly(String[] items){

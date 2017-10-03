@@ -1,0 +1,15 @@
+1. use the hadoop CLI to compile the Recomender.java file
+       hadoop com.sun.tools.javac.Main Recomender.java
+
+2. build a jar file (you can find one in 'jar' folder)
+       jar cf recomender.jar Recomender*.class
+
+3. the input files are in the 'input/' folder
+
+4. make sur there is no 'output' folder
+
+5. run the application
+       hadoop jar recomender.jar Recomender input/ output
+
+6. see the result in the 'output/part-r-00000' file you should obtain the same
+result as in 'old_output/part-r-00000'
